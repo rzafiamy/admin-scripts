@@ -12,6 +12,7 @@ Find detailed documentation for the included tools in the `docs/` folder. Quick 
 - 🛡️ `docs/audit_security_priv.md` — Comprehensive security & privacy audit (large set of sysctl, PAM, SSH, filesystem and service checks).
 - 📦 `docs/apt-upgradables.md` — List upgradable packages in a friendly table (supports English & French).
 - 💽 `docs/disk-monitor.md` — Disk usage and partition overview with per-path usage.
+ - 🧾 `docs/inventory.md` — System inventory report (hardware, disks, network, listening services).
 - ⚙️ `docs/list-services.md` — Service status and filtering (active / inactive / failed).
  - 🧱 `docs/audit_filesystem.md` — File-system specific audit (world-writable files/dirs, SUID/SGID, unowned files, core-dump restrictions).
  - 🧠 `docs/harden_kernel.md` — Script to apply kernel (sysctl) hardening settings and persist them.
@@ -33,10 +34,14 @@ Scripts live in the `scripts/` directory. Short descriptions and usage:
 
 - 💽 `scripts/disk_monitor.sh` — Prints partitions, block devices and per-path usage.
 	- Usage: `bash scripts/disk_monitor.sh`
+	- Notes: this script prints a colored, human-friendly disk dashboard and
+	  saves a simple `lsblk` snapshot to `/tmp/pro_disk_report.log` by default.
 
 - 🔍 `scripts/find_dns_by_cert.sh` — Find domains/hosts by certificate attributes (search TLS certs for names).
 
 - 🧾 `scripts/inventory.sh` — Gather basic system inventory (packages, kernel, CPU, memory, disks).
+
+- 🧾 `scripts/inventory.sh` — Gather basic system inventory (hostname, DMI info, CPU, memory, disks, network, listening ports).
 
 - 📋 `scripts/list_services.sh` — List systemd services with status and allow filtering by status.
 	- Usage: `bash scripts/list_services.sh [active|inactive|failed]`
