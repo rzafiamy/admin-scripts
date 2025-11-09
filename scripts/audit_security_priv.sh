@@ -125,16 +125,18 @@ check "SSH: HostbasedAuthentication disabled" "grep -qE '^[[:space:]]*HostbasedA
 check "SSH: PAM enabled" "grep -qE '^[[:space:]]*UsePAM\s+yes' /etc/ssh/sshd_config"
 
 echo -e "\n${BLUE}🌐 Network & Firewall${NC}"
-check "UFW (Uncomplicated Firewall) active" "LC_ALL=C ufw status | grep -q 'Status: active'"
-check "UFW: Default deny incoming" "LC_ALL=C ufw status | grep -q 'deny (incoming)'"
-check "UFW: Default allow outgoing" "LC_ALL=C ufw status | grep -q 'allow (outgoing)'"
-check "UFW: SSH rate limiting enabled" "LC_ALL=C ufw status | grep -q 'Limit.*ssh' || LC_ALL=C ufw status | grep -q 'Limit.*22/tcp'"
-check "No open ports except essential (e.g., 22)" "LC_ALL=C ss -tlpn | grep LISTEN | wc -l | grep -qE '^[1-5]$'"
-check "NFS server not running" "! systemctl is-active nfs-server"
-check "Samba server not running" "! systemctl is-active smbd"
-check "CUPS (printing) server not running" "! systemctl is-active cups"
-check "Avahi daemon (zeroconf) not running" "! systemctl is-active avahi-daemon"
+check "UFW (Uncomplicated Firewall) active" "LC_ALL=C ufw status | grep -Eiq 'active'"
+check "UFW: Default deny incoming" "LC_ALL=C ufw status verbose | grep -Eiq 'deny.*(incoming|entrant)'"
+check "UFW: Default allow outgoing" "LC_ALL=C ufw status verbose | grep -Eiq 'allow.*(outgoing|sortant)'"
+check 'UFW: SSH rate limiting enabled' "LC_ALL=C ufw status | grep -Eiq 'limit.*(ssh|22/tcp)'"
+check "No open ports except essential (e.g., 22)" "LC_ALL=C ss -tuln | awk '/LISTEN/ {print \$5}' | grep -v -E '(:22|:80|:443|:2222)' | grep -vq ."
+check "NFS server not running" "! systemctl is-active --quiet nfs-server"
+check "Samba server not running" "! systemctl is-active --quiet smbd"
+check "CUPS (printing) server not running" "! systemctl is-active --quiet cups"
+check "Avahi daemon (zeroconf) not running" "! systemctl is-active --quiet avahi-daemon"
 check "No legacy services (telnet, rsh)" "! dpkg -l | grep -E 'telnetd|rsh-server'"
+
+
 
 echo -e "\n${BLUE}🧠 Kernel Hardening (sysctl)${NC}"
 check "Kernel: IP forwarding disabled" "sysctl net.ipv4.ip_forward | grep -q '0'"
