@@ -32,13 +32,12 @@ get_service() {
 # Function to print header
 print_header() {
     clear
-    printf "${CYAN}┌──────────────────────────────────────────────────────────────┐${NC}\n"
-    printf "${CYAN}│ ${NETWORK} Network Connection Monitor ${NETWORK} ${NC}\n"
-    printf "${CYAN}└──────────────────────────────────────────────────────────────┘${NC}\n"
-    printf "${BLUE}%-12s %-10s %-18s %-18s %-10s %-10s${NC}\n" \
+    printf "${CYAN}┌────────────┬──────────┬──────────────────┬──────────────────┬──────────┬──────────┐${NC}\n"
+    printf "${CYAN}│ ${NETWORK} %-71s${NETWORK} │${NC}\n" "Network Connection Monitor"
+    printf "${CYAN}├────────────┼──────────┼──────────────────┼──────────────────┼──────────┼──────────┤${NC}\n"
+    printf "${BLUE}│ %-10s │ %-8s │ %-16s │ %-16s │ %-8s │ %-8s │${NC}\n" \
            "${CLOCK} Date" "Time" "Source IP" "Dest IP" "${PORT} Port" "${SERVICE} Service"
-    printf "${YELLOW}%-12s %-10s %-18s %-18s %-10s %-10s${NC}\n" \
-           "---------" "-------" "----------------" "----------------" "-------" "--------"
+    printf "${YELLOW}├────────────┼──────────┼──────────────────┼──────────────────┼──────────┼──────────┤${NC}\n"
 }
 
 # Function to check if running as root
@@ -125,7 +124,7 @@ get_connections() {
         echo -e "${RED}No connections found. Debug info:\n${debug_info}${NC}"
         echo "date time src_ip dst_ip port" # Dummy line to avoid empty output
     else
-        echo -e "${YELLOW}Debug info:\n${debug_info}${NC}" >&2
+        #echo -e "${YELLOW}Debug info:\n${debug_info}${NC}" >&2
         echo "$connections" | tail -n 20
     fi
 }
@@ -147,9 +146,12 @@ while true; do
         # Skip dummy line
         [ "$date" = "date" ] && continue
         service=$(get_service "$port")
-        printf "${GREEN}%-12s %-10s ${RED}%-18s ${YELLOW}%-18s ${CYAN}%-10s ${BLUE}%-10s${NC}\n" \
+        printf "${GREEN}│ %-10s │ %-8s │ ${RED}%-16s │ ${YELLOW}%-16s │ ${CYAN}%-8s │ ${BLUE}%-8s │${NC}\n" \
                "$date" "$time" "$src_ip" "$dst_ip" "$port" "$service"
     done
+
+    # Print table footer
+    printf "${YELLOW}└────────────┴──────────┴──────────────────┴──────────────────┴──────────┴──────────┘${NC}\n"
 
     # Wait for 1 second before refresh
     sleep 1
