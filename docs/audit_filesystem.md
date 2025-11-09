@@ -1,4 +1,3 @@
-````markdown
 # File-System Audit (`audit_filesystem.sh`)
 
 This document describes `scripts/audit_filesystem.sh`, a focused file-system security audit script that checks for insecure permissions, SUID/SGID binaries, unowned files, and core-dump restrictions.
@@ -66,5 +65,3 @@ Example snippet from the log:
 ## License
 
 See repository `LICENSE`.
-
-````

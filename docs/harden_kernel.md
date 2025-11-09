@@ -1,4 +1,3 @@
-````markdown
 # Kernel Hardening (`harden_kernel.sh`)
 
 This document describes `scripts/harden_kernel.sh`, a script that applies kernel-level hardening sysctl settings and persists them under `/etc/sysctl.d/99-hardening.conf`.
@@ -56,5 +55,3 @@ If you prefer different values (for example, keep IPv6 enabled), edit the file b
 ## License
 
 See repository `LICENSE`.
-
-````

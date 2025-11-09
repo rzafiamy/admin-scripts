@@ -1,4 +1,3 @@
-````markdown
 # Logs & Monitoring Hardening (`harden_logging.sh`)
 
 This document describes `scripts/harden_logging.sh`, a script that enforces secure logging and auditing configuration on Debian/Ubuntu systems.
@@ -67,5 +66,3 @@ sudo cat /etc/profile.d/bash_history_hardening.sh
 ## License
 
 See repository `LICENSE`.
-
-````
